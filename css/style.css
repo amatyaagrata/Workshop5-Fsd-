@@ -1,0 +1,131 @@
+/* Reset */
+* {
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: linear-gradient(135deg, #fdeff9, #ecf2ff);
+    margin: 0;
+    padding: 0;
+}
+
+/* Main Container */
+.container {
+    width: 80%;
+    max-width: 900px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Headings */
+h1 {
+    text-align: center;
+    color: #6c5ce7;
+}
+
+h2 {
+    color: #ff7675;
+    margin-bottom: 15px;
+}
+
+/* Links */
+a {
+    color: #6c5ce7;
+    font-weight: 600;
+}
+
+a:hover {
+    color: #ff7675;
+}
+
+/* Forms */
+form {
+    background: #fafafa;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+label {
+    font-weight: 600;
+    color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+input:focus {
+    outline: none;
+    border-color: #6c5ce7;
+}
+
+/* Buttons */
+button {
+    background: #6c5ce7;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #ff7675;
+    transform: translateY(-2px);
+}
+
+/* Messages */
+.message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.success {
+    background: #dff9fb;
+    color: #0984e3;
+}
+
+.error {
+    background: #ffecec;
+    color: #d63031;
+}
+
+/* Student Card */
+.student-card {
+    background: #f8f9ff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    border-left: 5px solid #6c5ce7;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    color: #999;
+    margin-top: 20px;
+}
+
+/* Cute HR */
+hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, #6c5ce7, #ff7675);
+    margin: 20px 0;
+}
