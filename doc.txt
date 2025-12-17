@@ -1,0 +1,4 @@
+git config --global user.email "amatyaagrata@gmail.com"
+git config --global user.name "amatyaagrata" 
+dsfdsf
+sdfdsf
