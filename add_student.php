@@ -1,42 +1,61 @@
-<!-- //Second part for adding the students.. -->
 <?php
-require "header.php";
-require "functions.php";
+include "header.php";
 
-$message = "";
+function formatName($name) {
+    return ucwords(trim($name));
+}
+function validateEmail($email) {
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+function cleanSkills($string) {
+    return array_map('trim', explode(',', $string));
+}
+function saveStudent($name, $email, $skillsArray) {
+    $file = __DIR__ . "/students.txt";
+
+    if (!file_exists($file)) {
+        throw new Exception("students.txt file not found.");
+    }
+
+    if (!is_writable($file)) {
+        throw new Exception("students.txt is not writable.");
+    }
+
+    $data = "Name: $name | Email: $email | Skills: " . implode(", ", $skillsArray) . PHP_EOL;
+    file_put_contents($file, $data, FILE_APPEND);
+}
+
+$msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $name = formatName($_POST["name"]);
         $email = $_POST["email"];
-        $skills = cleanSkills($_POST["skills"]);
+        $skills = $_POST["skills"];
 
-        if (!$name || !validateEmail($email)) {
-            throw new Exception("Invalid name or email.");
+        if (!$name || !validateEmail($email) || !$skills) {
+            throw new Exception("All fields are required and email must be valid.");
         }
 
-        $data = $name . "|" . $email . "|" . implode(",", $skills) . PHP_EOL;
+        $skillsArray = cleanSkills($skills);
+        saveStudent($name, $email, $skillsArray);
 
-        if (!file_put_contents("students.txt", $data, FILE_APPEND)) {
-            throw new Exception("Could not save student data.");
-        }
-
-        $message = "Student added successfully!";
+        $msg = "<div class='success'>Student saved successfully 🎉</div>";
     } catch (Exception $e) {
-        $message = "Error: " . $e->getMessage();
+        $msg = "<div class='error'>" . $e->getMessage() . "</div>";
     }
 }
 ?>
 
-<h2>Add Student Info</h2>
+<div class="card">
+    <h2>Add Student</h2>
+    <?php echo $msg; ?>
+    <form method="post">
+        <input type="text" name="name" placeholder="Full Name">
+        <input type="email" name="email" placeholder="Email">
+        <textarea name="skills" placeholder="Skills (comma separated)"></textarea>
+        <button type="submit">Save Student</button>
+    </form>
+</div>
 
-<form method="post">
-    Name: <input type="text" name="name" required><br><br>
-    Email: <input type="email" name="email" required><br><br>
-    Skills (comma-separated): <input type="text" name="skills" required><br><br>
-    <button type="submit">Save</button>
-</form>
-
-<p><?php echo $message; ?></p>
-
-<?php require "footer.php"; ?>
+<?php include "footer.php"; ?>

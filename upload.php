@@ -1,49 +1,47 @@
-<!-- /Third part for uploading file  -->
-
 <?php
-require "header.php";
+include "header.php";
 
-$message = "";
+function uploadPortfolioFile($file) {
+    $allowed = ["pdf", "jpg", "jpeg", "png"];
+    $maxSize = 2 * 1024 * 1024;
+
+    $ext = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
+
+    if (!in_array($ext, $allowed)) {
+        throw new Exception("Invalid file type.");
+    }
+    if ($file["size"] > $maxSize) {
+        throw new Exception("File size exceeds 2MB.");
+    }
+    if (!is_dir("uploads")) {
+        throw new Exception("Upload directory not found.");
+    }
+
+    $newName = "portfolio_" . time() . "." . $ext;
+    move_uploaded_file($file["tmp_name"], "uploads/" . $newName);
+
+    file_put_contents("students.txt", "Uploaded File: $newName" . PHP_EOL, FILE_APPEND);
+}
+
+$msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        $allowed = ["pdf", "jpg", "png"];
-        $file = $_FILES["portfolio"];
-        $ext = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
-
-        if (!in_array($ext, $allowed)) {
-            throw new Exception("Invalid file type.");
-        }
-
-        if ($file["size"] > 2 * 1024 * 1024) {
-            throw new Exception("File too large.");
-        }
-
-        if (!is_dir("uploads")) {
-            throw new Exception("Upload directory missing.");
-        }
-
-        $newName = uniqid("portfolio_") . "." . $ext;
-
-        if (!move_uploaded_file($file["tmp_name"], "uploads/" . $newName)) {
-            throw new Exception("Upload failed.");
-        }
-
-        $message = "File uploaded successfully!";
+        uploadPortfolioFile($_FILES["portfolio"]);
+        $msg = "<div class='success'>File uploaded successfully 📁</div>";
     } catch (Exception $e) {
-        $message = "Error: " . $e->getMessage();
+        $msg = "<div class='error'>" . $e->getMessage() . "</div>";
     }
 }
 ?>
 
-<h2>Upload Portfolio File</h2>
+<div class="card">
+    <h2>Upload Portfolio</h2>
+    <?php echo $msg; ?>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="portfolio" required>
+        <button type="submit">Upload</button>
+    </form>
+</div>
 
-<form method="post" enctype="multipart/form-data">
-    <input type="file" name="portfolio" required>
-    <br><br>
-    <button type="submit">Upload</button>
-</form>
-
-<p><?php echo $message; ?></p>
-
-<?php require "footer.php"; ?>
+<?php include "footer.php"; ?>

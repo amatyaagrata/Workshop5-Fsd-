@@ -1,13 +1,8 @@
-<!-- firstpageee -->
-
-<?php require "header.php"; ?>
-
-<p>Welcome! Manage student profiles and upload portfolios.</p>
-
-<ul>
-    <li><a href="add_student.php">Add Student Info</a></li>
-    <li><a href="upload.php">Upload Portfolio File</a></li>
-    <li><a href="students.php">View Students</a></li>
-</ul>
-
-<?php require "footer.php"; ?>
+<?php include "header.php"; ?>
+<div class="card">
+    <h2>Welcome 👋</h2>
+    <a href="add_student.php">➕ Add Student Info</a>
+    <a href="upload.php">📁 Upload Portfolio File</a>
+    <a href="students.php">👀 View Students</a>
+</div>
+<?php include "footer.php"; ?>
